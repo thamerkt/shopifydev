@@ -1,28 +1,35 @@
-# Use an official Python runtime as a parent image
-FROM python:3.12-slim
+# Django core
+Django>=4.2
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# GraphQL
+graphene-django>=3.2
+graphql-core>=3.2
+django-filter>=23.0
 
-# Set work directory
-WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
-    libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+psycopg2-binary
+# Shopify API integration
+requests>=2.31
 
-# Install Python dependencies
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project
-COPY . /app/
+# WebSockets / real-time chat
+channels>=4.1
+channels-redis>=4.1   # if using Redis as channel layer
 
-# Expose port
-EXPOSE 8000
+# Environment & config
+python-dotenv>=1.0
 
-# Run the application using Daphne for ASGI support
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "myshopapp.asgi:application"]
+# CORS (if frontend separate)
+django-cors-headers>=4.0
+
+# Static files for production
+whitenoise>=6.5
+
+# Production WSGI/ASGI server
+gunicorn>=21.2
+daphne>=4.1   # ASGI server for Django Channels
+
+# AI / NLP (optional, if you want AI models locally)
+openai>=1.1.0    # if using OpenAI API for AI chat
+transformers>=4.40  # optional for local AI models
+torch>=2.1        # if using transformers locally

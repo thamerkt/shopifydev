@@ -1,32 +1,28 @@
-# Use official Python image
+# Use an official Python runtime as a parent image
 FROM python:3.12-slim
 
-# Prevent Python from writing pyc files
+# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set working directory
+# Set work directory
 WORKDIR /app
 
 # Install system dependencies
-@@ -14,20 +14,15 @@ RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y \
+    gcc \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first (for caching)
-COPY myshopaap/myshopapp/requirements.txt .
-
-# Upgrade pip
-RUN pip install --upgrade pip
-
-# Install dependencies
+# Install Python dependencies
+COPY myshopaap/myshopapp/requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project
-COPY myshopaap/myshopapp/ .
+COPY myshopaap/myshopapp/ /app/
 
 # Expose port
 EXPOSE 8000
 
-# Run Daphne (ASGI)
+# Run the application using Daphne for ASGI support
 CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "myshopapp.asgi:application"]

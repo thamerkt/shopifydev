@@ -84,11 +84,9 @@ GRAPHENE = {
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse("postgresql://database_uzyd_user:um6h8byTSUVPmk3bETljJNmMmT01Rljd@dpg-d6b453bnv86c73cvadn0-a/database_uzyd"))
 }
+
 
 
 CHANNEL_LAYERS = {

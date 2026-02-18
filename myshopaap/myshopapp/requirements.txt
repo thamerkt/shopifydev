@@ -22,6 +22,11 @@ python-dotenv>=1.0
 # CORS (if frontend separate)
 django-cors-headers>=4.0
 
+# POSTGRES
+dj_database_url
+psycopg2-binary
+
+
 # Static files for production
 whitenoise>=6.5
 
